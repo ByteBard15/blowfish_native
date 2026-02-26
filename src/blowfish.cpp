@@ -1,4 +1,4 @@
-#include "bcrypt.h"
+#include "blowfish.h"
 
 void blf_encipher(blowfish_context *ctx, u_int32_t *xl, u_int32_t *xr) {
     u_int32_t l, r;
@@ -35,5 +35,16 @@ void blf_decipher(blowfish_context *ctx, u_int32_t *xl, u_int32_t *xr) {
 }
 
 u_int32_t blf_stream_to_word(const u_int8_t *data, u_int16_t data_bytes, u_int16_t *current) {
+    u_int32_t temp = 0x000000;
+    u_int16_t j = *current;
 
+    for (u_int8_t start = 0; start < 4; start++, j++) {
+        if (j >= data_bytes) {
+            j = 0;
+        }
+        temp = (temp << 8) | data[j];
+    }
+
+    *current = j;
+    return temp;
 }
