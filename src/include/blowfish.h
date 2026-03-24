@@ -51,6 +51,12 @@ struct blowfish_context {
     u_int32_t P[BLF_N + 2];
 };
 
+/**
+ * This f_networks function takes the s_box and the data x.
+ * It computes the first 8 bits of x and then gets the value from the table s_box
+ * Also the second 8 bits of x and then gets the value from the second row in the table, that is after 256 or 2^8 records,
+ * Does the same for the last 2 bytes and adds the first and second while or-ing it with the third and fourth
+ */
 constexpr u_int32_t f_networks(u_int32_t* s_box, u_int32_t x) {
     auto f_byte = s_box[(x >> 24) & 0xff];
     auto s_byte = s_box[0x100 + ((x >> 16) & 0xff)];
@@ -60,6 +66,10 @@ constexpr u_int32_t f_networks(u_int32_t* s_box, u_int32_t x) {
     return f_byte + s_byte ^ t_byte + f_t_byte;
 }
 
+/**
+ * This takes the s_box and p_box, the left and right part of the data with n.
+ * It then
+ */
 constexpr u_int32_t blf_rn(u_int32_t *s_box, u_int32_t *p_box, u_int32_t xl, u_int32_t xr, u_int32_t n) {
     xl ^= f_networks(s_box, xr);
     return xl ^ p_box[n];
