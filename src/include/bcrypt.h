@@ -32,4 +32,8 @@ constexpr u_int8_t to_base_64(u_int8_t ch) {
     return ch > 127 ? 255 : index_64[ch];
 }
 
+constexpr bool is_invalid_base64_char(const u_int8_t ch) {
+    return to_base_64(ch) == 255;
+}
+
 #endif

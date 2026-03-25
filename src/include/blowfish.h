@@ -1,5 +1,5 @@
-#ifndef _BCRYPT_H_
-#define _BCRYPT_H_
+#ifndef BLOWFISH_H
+#define BLOWFISH_H
 
 #include <sys/types.h>
 
