@@ -127,7 +127,26 @@ u_int32_t bcrypt_get_rounds(const char * hash) {
     return atoi(hash);
 }
 
-void bcrypt_hash(std::string& key, std::string& salt_str) {
+std::string format_bcrypt_output(char minor, int cost, u_int8_t* salt, u_int8_t *cipher_text) {
+    char result[61];
+    int pos = 0;
+
+    result[pos++] = '$';
+    result[pos++] = '2';
+    if (minor) result[pos++] = minor;
+    result[pos++] = '$';
+
+    snprintf(result + pos, 4, "%02u$", cost & 0x1F);
+    pos += 3;
+
+    encode_base64(reinterpret_cast<u_int8_t *>(result + pos), salt, BCRYPT_MAX_SALT);
+    pos += 22;
+    encode_base64(reinterpret_cast<u_int8_t *>(result + pos), cipher_text, 24);
+
+    return std::string(result);
+}
+
+std::string bcrypt_hash(std::string& key, std::string& salt_str) {
     blowfish_context ctx;
     u_int8_t salt_bytes[BCRYPT_MAX_SALT];
     u_int32_t c_data[BCRYPT_BLOCKS];
@@ -215,20 +234,5 @@ void bcrypt_hash(std::string& key, std::string& salt_str) {
 
     // --- 7. FORMAT OUTPUT ---
     // Reassemble the binary 'c_data' into the final hash string
-    return format_bcrypt_output(minor, cost_val, salt_bytes, c_data);
-}
-
-std::string format_bcrypt_output(char minor, int cost, u_int8_t* salt, u_int32_t *c_data) {
-    char result[61];
-    int pos = 0;
-
-    result[pos++] = '$';
-    result[pos++] = '2';
-    if (minor) result[pos++] = minor;
-    result[pos++] = '$';
-
-    snprintf(result + pos, 4, "%02u$", cost & 0x1F);
-    pos += 3;
-
-    encode_base64()
+    return format_bcrypt_output(minor, cost_val, salt_bytes, cipher_text);
 }

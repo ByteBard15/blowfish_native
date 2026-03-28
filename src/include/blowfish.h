@@ -47,8 +47,8 @@ typedef unsigned long long u_int64_t;
 #define _MAX_SALT_LENGTH 32
 
 struct blowfish_context {
-    u_int32_t S[4][256];
-    u_int32_t P[BLF_N + 2];
+    u_int32_t s_box[4][256];
+    u_int32_t p_box[BLF_N + 2];
 };
 
 /**
