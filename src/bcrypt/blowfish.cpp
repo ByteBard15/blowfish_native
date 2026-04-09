@@ -1,6 +1,6 @@
 #include "blowfish.h"
 
-#include <string.h>
+#include <cstring>
 
 /**
  * This function performs the actual scrambling of data. Blowfish is a Feistal network, meaning

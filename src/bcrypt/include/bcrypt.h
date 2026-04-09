@@ -3,10 +3,9 @@
 
 #include <sys/types.h>
 
-#include "blowfish.h"
-
 void encode_base64(u_int8_t *, u_int8_t *, u_int16_t);
 void decode_base64(u_int8_t *buf, u_int16_t len, u_int8_t *data);
+void encode_base64_v2(u_int8_t *, u_int8_t *, u_int16_t);
 
 static auto error = ":";
 
