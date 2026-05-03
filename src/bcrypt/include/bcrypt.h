@@ -28,6 +28,10 @@ static u_int8_t index_64[128] = {
 };
 
 constexpr u_int8_t to_base_64(u_int8_t ch) {
+    return base_64_code[ch];
+}
+
+constexpr u_int8_t to_ascii(u_int8_t ch) {
     return ch > 127 ? 255 : index_64[ch];
 }
 

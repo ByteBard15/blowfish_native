@@ -2,6 +2,8 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+#include <format>
 #include <stdexcept>
 #include <string>
 
@@ -13,13 +15,16 @@ void encode_salt(char *salt, u_int8_t *c_salt, char minor, u_int16_t c_len, u_in
     salt[2] = minor;
     salt[3] = '$';
 
+    u_int8_t masked_logr = 0x1F & log_r;
+    std::string cost_str = std::format("{:02}$", masked_logr);
+    memcpy(salt + 4, cost_str.c_str(), 3);
     encode_base64(reinterpret_cast<u_int8_t *>(salt + 7), c_salt, c_len);
 }
 
-void bcrypt_gen_salt(char minor, u_int8_t log_rounds, u_int8_t *seed, char *g_salt) {
+void bcrypt_gen_salt(char minor, u_int8_t log_rounds, u_int8_t *seed, char *output) {
     log_rounds = log_rounds < 4 ? 4 : (log_rounds > 31 ? 31 : log_rounds);
 
-    encode_salt(g_salt, seed, minor, BCRYPT_MAX_SALT, log_rounds);
+    encode_salt(output, seed, minor, BCRYPT_MAX_SALT, log_rounds);
 }
 
 u_int32_t bcrypt_get_rounds(const char * hash) {

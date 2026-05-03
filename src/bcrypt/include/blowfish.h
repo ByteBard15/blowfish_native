@@ -1,6 +1,7 @@
 #ifndef BLOWFISH_H
 #define BLOWFISH_H
 
+#include <string>
 #include <sys/types.h>
 
 #ifdef __sun
@@ -95,6 +96,7 @@ u_int32_t blf_stream_to_word(const u_int8_t *, u_int16_t, u_int16_t *);
 
 void bcrypt_gen_salt(char, u_int8_t, u_int8_t *, char *);
 void bcrypt(const char *, size_t key_len, const char *, char *);
+std::string bcrypt_hash(std::string& key, std::string& salt_str);
 void encode_salt(char *, u_int8_t *, char, u_int16_t, u_int8_t);
 u_int32_t bcrypt_get_rounds(const char *);
 

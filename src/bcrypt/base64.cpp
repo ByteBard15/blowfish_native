@@ -5,8 +5,8 @@ void decode_base64(u_int8_t *buf, u_int16_t len, u_int8_t *data) {
     u_int8_t *p = data;
 
     while (bp < buf + len) {
-        u_int8_t d_c1 = to_base_64(*p);
-        u_int8_t d_c2 = to_base_64(*(p + 1));
+        u_int8_t d_c1 = to_ascii(*p);
+        u_int8_t d_c2 = to_ascii(*(p + 1));
 
         if (is_invalid_base64_char(d_c1) || is_invalid_base64_char(d_c2)) {
             break;
@@ -19,7 +19,7 @@ void decode_base64(u_int8_t *buf, u_int16_t len, u_int8_t *data) {
             break;
         }
 
-        u_int8_t d_c3 = to_base_64(*(p + 2));
+        u_int8_t d_c3 = to_ascii(*(p + 2));
         if (is_invalid_base64_char(d_c3)) {
             break;
         }
@@ -28,7 +28,7 @@ void decode_base64(u_int8_t *buf, u_int16_t len, u_int8_t *data) {
         if (bp >= buf + len) {
             break;
         }
-        u_int8_t d_c4 = to_base_64(*(p + 3));
+        u_int8_t d_c4 = to_ascii(*(p + 3));
         if (is_invalid_base64_char(d_c4)) {
             break;
         }
@@ -77,7 +77,7 @@ void encode_base64(u_int8_t *buf, u_int8_t *data, u_int16_t len) {
 }
 
 void encode_base64_v2(u_int8_t *buf, u_int8_t *data, u_int16_t len) {
-    const u_int8_t *p = buf;
+    const u_int8_t *p = data;
     u_int8_t *bp = buf;
 
     while (p < data + len) {
