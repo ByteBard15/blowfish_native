@@ -8,7 +8,8 @@
     "bindings": "~1.5.0"
   },
   "scripts": {
-    "test": "node blf.js"
+    "start": "node blf.js",
+    "build": "npm install && npm run start"
   },
   "gypfile": true
 }

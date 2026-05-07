@@ -21,7 +21,7 @@
         {
             "target_name": "blf_v2",
             "cflags_cc": [ "-fexceptions" ],
-            "sources": ["bcrypt.cpp"],
+            "sources": ["node_bcrypt.cpp"],
             "include_dirs": [
                 "include"
             ],

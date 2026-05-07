@@ -2,6 +2,7 @@
 #define BLOWFISH_H
 
 #include <string>
+#include <vector>
 #include <sys/types.h>
 
 #ifdef __sun
@@ -64,7 +65,7 @@ constexpr u_int32_t f_networks(u_int32_t* s_box, u_int32_t x) {
     auto t_byte = s_box[0x200 + ((x >> 8) & 0xff)];
     auto f_t_byte = s_box[0x300 + (x & 0xff)];
 
-    return f_byte + s_byte ^ t_byte + f_t_byte;
+    return (f_byte + s_byte) ^ (t_byte + f_t_byte);
 }
 
 /**
@@ -95,8 +96,10 @@ void blf_cbc_decrypt(blowfish_context *, u_int8_t *, u_int8_t *, u_int32_t);
 u_int32_t blf_stream_to_word(const u_int8_t *, u_int16_t, u_int16_t *);
 
 void bcrypt_gen_salt(char, u_int8_t, u_int8_t *, char *);
-void bcrypt(const char *, size_t key_len, const char *, char *);
+bool validate_salt(const char* salt);
 std::string bcrypt_hash(std::string& key, std::string& salt_str);
+std::string bcrypt_hash(std::vector<u_int8_t> key, std::vector<u_int8_t> salt_str);
+std::string bcrypt_hash_buf(const char *key, size_t key_len, const char *salt_str, size_t salt_len);
 void encode_salt(char *, u_int8_t *, char, u_int16_t, u_int8_t);
 u_int32_t bcrypt_get_rounds(const char *);
 

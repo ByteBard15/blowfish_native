@@ -15,3 +15,7 @@ target_include_directories(bcrypt_core PUBLIC src/bcrypt/include)
 add_executable(bcrypt_cli src/app/main.cpp)
 target_link_libraries(bcrypt_cli PRIVATE bcrypt_core)
 target_compile_options(bcrypt_cli PRIVATE -Wall -Wextra -pedantic)
+
+# Include IDE-only targets for Node addon sources without affecting default builds.
+add_subdirectory(src/lib EXCLUDE_FROM_ALL)
+
