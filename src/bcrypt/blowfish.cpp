@@ -126,9 +126,9 @@ void blf_key(blowfish_context *ctx, const u_int8_t *key, u_int16_t len) {
 
 void blf_enc(blowfish_context *ctx, u_int32_t *data, u_int16_t blocks) {
     u_int32_t *d = data;
-    u_int16_t i;
 
-    for (i = 0; i < blocks; ++i) {
+    // This is normally three times
+    for (u_int16_t i = 0; i < blocks; ++i) {
         blf_encipher(ctx, d, d + 1);
         d += 2;
     }
